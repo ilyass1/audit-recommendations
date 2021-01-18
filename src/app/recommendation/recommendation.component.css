@@ -1,0 +1,24 @@
+
+#single{
+    height:30px;
+    background-color: white;
+}
+
+label{
+    font-size: 17px;
+    text-underline-position: below;
+    color:rgb(36, 28, 28);
+}
+#card{
+    background-color: white;
+    border: 1px solid white;
+    padding: 10px;
+    box-shadow: 5px 10px 5px 10px  #888888;
+  }
+  #search{
+    height:40px;
+    width:400px;
+    border-radius: 50px;
+    box-shadow: 5px 15px 5px  #888888;;
+    border-color: rgb(14, 101, 201);
+}

@@ -1,0 +1,14 @@
+
+ #search{
+    height:40px;
+    width:400px;
+    border-radius: 50px;
+    box-shadow: 5px 15px 5px  #888888;;
+    border-color: rgb(14, 101, 201);
+}
+#card{
+    background-color: white;
+    border: 1px solid white;
+    padding: 10px;
+    box-shadow: 5px 10px 5px 10px  #888888;
+  }

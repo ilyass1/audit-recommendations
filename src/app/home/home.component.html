@@ -1,0 +1,197 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 col-xl-3">
+            <div class="card bg-c-blue order-card">
+                <div class="card-block">
+                    <h6 class="m-b-20">Nombre total des missions</h6> <br>
+                    <h2 class="text-right"><i class="fa fa-cart-plus f-left"></i><span>{{missions_interne.length + missions_externe.length
+                    + missions_organe.length}}</span></h2>
+                  
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 col-xl-3">
+            <div class="card bg-c-green order-card">
+                <div class="card-block">
+                    <h6 class="m-b-10">Nombre total des recommandations</h6>
+                    <h2 class="text-right"><i class="fa fa-rocket f-left"></i><span>{{recommendations.length}}</span></h2>
+                </div>
+            </div>
+        </div>
+           <div class="col-md-3 col-xl-3">
+            <div class="card bg-c-yellow order-card">
+                <div class="card-block">
+                    <h6 class="m-b-10">Nombre total des auditeurs internes</h6>
+                    <h2 class="text-right"><i class="fa fa-rocket f-left"></i><span>{{auditeur.length}}</span></h2>
+                </div>
+            </div>
+        </div>
+           <div class="col-md-3 col-xl-3">
+            <div class="card bg-c-pink order-card">
+                <div class="card-block">
+                    <h6 class="m-b-10">Nombre total des responsables d'audit</h6>
+                    <h2 class="text-right"><i class="fa fa-rocket f-left"></i><span>{{responsable_audit.length}}</span></h2>
+                </div>
+            </div>
+        </div>
+          <div class="col-md-3 col-xl-3">
+            <div class="card bg-c-grey order-card">
+                <div class="card-block">
+                    <h6 class="m-b-10">Nombre total des respnsables opérationels</h6>
+                    <h2 class="text-right"><i class="fa fa-rocket f-left"></i><span>{{responsable_o.length}}</span></h2>
+                </div>
+            </div>
+        </div>
+        
+       
+      
+	</div>
+</div>
+
+<div class="row">
+  <div class="col-sm-6" id="card">
+    <p-chart type="bar" [data]="data1" height="50vh" [options]="chartOptions" ></p-chart>
+  </div>
+  <div class="col-sm-6" id="card">
+    <p-chart type="pie" [data]="data2" height="50vh"></p-chart>
+  </div>
+</div>
+<br><br>
+<div class="row ">
+  <div class="col-sm-6" id="card">
+    <h6 class="text-center">LISTES DES DOMAINES</h6>
+    <p-table [value]="domaines" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[1,5,10,15]"
+      totalRecords="domaines.length" pageLinks="3">
+      <ng-template pTemplate="header">
+        <tr class="text-center">
+          <th>ID</th>
+          <th>NOM</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-domaine let-rowData>
+        <tr class="text-center">
+          <td>{{domaine.id}}</td>
+          <td>{{domaine.nom}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <div class="col-sm-6" id="card">
+    <h6 class="text-center">LISTES DES STRUCTURES</h6>
+    <p-table [value]="structures" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[1,5,10,15]"
+      totalRecords="structures.length" pageLinks="3">
+      <ng-template pTemplate="header">
+        <tr class="text-center">
+          <th>ID</th>
+          <th>NOM</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-structure let-rowData>
+        <tr class="text-center">
+          <td>{{structure.id}}</td>
+          <td>{{structure.nom}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<!-------------------------------------------------------------------------------------->
+<br><br>
+<br>
+<div class="row text-center">
+  <div class="col-sm-12" id="card">
+    <h6 class="text-center">LISTES DES UTILISATEURS</h6>
+    <p-table [value]="utilisateurs" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30,40,50]"
+      totalRecords="utilisateurs.length" pageLinks="3">
+      <ng-template pTemplate="header">
+        <tr class="text-center">
+          <th>NOM</th>
+          <th>PRÉNOM</th>
+          <th>TYPE</th>
+          <th>STRUCTURE</th>
+
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-utilisateur let-rowData>
+        <tr class="text-center">
+          <td>{{utilisateur.nom}}</td>
+          <td>{{utilisateur.prenom}}</td>
+          <td>{{utilisateur.type}}</td>
+          <td>{{utilisateur.structure.nom}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<br><br>
+<!-------------------------------------------------------------------------------------->
+<div class="row">
+  <div class="col-sm-12" id="card">
+    <div class="container-fluid text-center">
+      <h6 class="text-center">LISTES DES RECOMMENDATIONS</h6>
+      <p-table [value]="recommendations" [paginator]="true" [rows]="3" [rowsPerPageOptions]="[5,10,15,20,25]"
+        totalRecords="recommendations.length" pageLinks="3" [autoLayout]="true">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Intitulé</th>
+            <th>Date de mise en place previsionnelle</th>
+            <th>Date de mise en place réelle</th>
+            <th>Status</th>
+            <th>Priorité</th>
+            <th>Responsable de mise en place</th>
+            <th>Taux d'avancement</th>
+            <th>Périmètre</th>
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-reco let-rowData>
+          <tr [ngClass]="{'background1': reco.status == 'non mise en oeuvre','background2':reco.status == 'obsoléte'}">
+            <td>{{reco.intitule}}</td>
+            <td>{{reco.mise_en_place_previsionnelle}}</td>
+            <td>{{reco.mise_en_place_reelle}}</td>
+            <td>{{reco.status}}</td>
+            <td>{{reco.priority}}</td>
+            <td>{{reco.responsable_mise_en_place == null ? "" :  reco.responsable_mise_en_place.nom }} {{reco.responsable_mise_en_place == null ? "" :reco.responsable_mise_en_place.prenom}} </td>
+            <td> <p-progressBar [value]="reco.taux_avancement == null ? '0' :reco.taux_avancement"></p-progressBar></td>
+            <td> <select multiple id="multi">
+                <option [ngValue]="item.id" *ngFor="let item of reco.domaine"> {{item.nom}} </option>
+              </select></td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-------------------------------------------------------------------------------------->
+<br><br>
+<br><br>
+<div class="row">
+  <div class="col-sm-4 text-center" id="card">
+    <h6> Recommendations des Missions Interne </h6>
+    <p-chart type="bar" [data]="data3" height="50vh" [options]="chartOptions"></p-chart>
+
+  </div>
+  <div class="col-sm-4 text-center" id="card">
+    <h6> Recommendations des Missions Externe </h6>
+    <p-chart type="bar" [data]="data4" height="50vh" [options]="chartOptions"></p-chart>
+  </div>
+  <div class="col-sm-4 text-center" id="card">
+    <h6> Recommendations des Missions d'un autre organe de controle</h6>
+    <p-chart type="bar" [data]="data5" height="50vh" [options]="chartOptions"></p-chart>
+  </div>
+</div>
+<br><br>
+<!-------------------------------------------------------------------------------------------->
+<div class="row">
+  <div class="col-sm-12 text-center" id="card" >
+    <h5> Status des Recommendations par Priorité</h5>
+    <p-chart type="bar" [data]="data6" [options]="chartOptions" height="50vh"></p-chart>
+  </div>
+</div>
+
+<p-toast [style]="{marginTop: '50px'}"  key="key1"></p-toast>

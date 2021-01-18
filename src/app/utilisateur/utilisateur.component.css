@@ -1,0 +1,29 @@
+
+#card{
+    background-color: white;
+    border: 1px solid white;
+    padding: 10px;
+    box-shadow: 5px 10px 5px  #888888;
+  }
+  select{
+    background-color: white;
+    width:200px;
+    height:30px
+  }
+  .mydialog,
+.mydialog2 {
+  width: 500px;
+}
+@media screen and (max-width: 40em) {
+  .mydialog,
+  .mydialog2 {
+    width: 75vw;
+  }
+} 
+#search{
+  height:40px;
+  width:400px;
+  border-radius: 50px;
+  box-shadow: 5px 15px 5px  #888888;;
+  border-color: rgb(14, 101, 201);
+}
