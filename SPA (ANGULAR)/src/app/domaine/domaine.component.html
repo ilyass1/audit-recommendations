@@ -1,0 +1,174 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="container text-center" id="card">
+      <input
+        type="text"
+        pInputText
+        placeholder="Chercher"
+        class="text-center"
+        [(ngModel)]="search_domaine"
+        (input)="search_domaine_name()"
+        id="search"
+      />
+      <br />
+      <br />
+
+      <p-table
+        [value]="domaines"
+        [paginator]="true"
+        [rows]="8"
+        [rowsPerPageOptions]="[8, 16, 24, 32, 40]"
+        totalRecords="domaines.length"
+        pageLinks="3"
+        [autoLayout]="true"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>NOM</th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-domaine let-rowData>
+          <tr>
+            <td>{{ domaine.nom }}</td>
+
+            <td>
+              <p-button
+                icon="pi pi-user-edit"
+                iconPos="left"
+                styleClass="ui-button-warning"
+                (click)="showDialog_edit(domaine)"
+              >
+              </p-button>
+              &nbsp;
+              <p-button
+                icon="pi pi-times"
+                styleClass="ui-button-danger "
+                (click)="delete_domaine(domaine.id)"
+              >
+              </p-button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="summary" let-rowData>
+          <div style="text-align: left">
+            <button
+              type="button"
+              pButton
+              icon="pi pi-plus"
+              (click)="showDialog_add()"
+              label="Ajouter"
+            ></button>
+          </div>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
+
+<!--------------------------------------Edit form pop-Up--------------------------------/-->
+<p-dialog
+  header="Modifier le domaine"
+  [(visible)]="display_edit"
+  styleClass="mydialog"
+>
+  <div class="container text-center">
+    <form #domaineedit="ngForm" (ngSubmit)="edit_domaine(domaineedit)">
+      <div class="form-group">
+        <input
+          class="form-control"
+          (input)="check_name_edit()"
+          type="text"
+          name="nom"
+          ngModel
+          [(ngModel)]="name"
+        />
+      </div>
+      <div class="form-group">
+        <p-button
+          label="Modifier"
+          styleClass=" ui-button-rounded "
+          type="submit"
+        ></p-button>
+      </div>
+    </form>
+  </div>
+</p-dialog>
+<!------------------------------------END Edit form pop-Up---------------------------------->
+
+<!-------------------------------------- ADD form pop-Up-------------------------------------->
+
+<p-dialog
+  header="Ajouter un domaine"
+  [(visible)]="display_add"
+  styleClass="mydialog2"
+>
+  <div class="container text-center">
+    <form #domaineadd="ngForm" (ngSubmit)="add_domaine(domaineadd)">
+      <div class="form-group">
+        <input
+          pInputText
+          (input)="check_name_edit()"
+          class="form-control"
+          type="text"
+          name="name"
+          placeholder="nom"
+          ngModel
+          [(ngModel)]="edit_name"
+        />
+      </div>
+
+      <div class="form-group">
+        <p-button
+          label="Ajouter"
+          [disabled]="disable"
+          styleClass="ui-button-rounded "
+          type="submit"
+        ></p-button>
+      </div>
+    </form>
+  </div>
+</p-dialog>
+<!--------------------------------------END ADD form pop-Up-------------------------------->
+<!----------------------------------------- NO RECORDS DIALOGUE---------------------------------------->
+<p-dialog
+  header="ALERT"
+  [(visible)]="displaynorecords"
+  [style]="{ width: '50vw' }"
+  [baseZIndex]="10000"
+  position="top"
+>
+  Aucun domaine n'a été trouvé !!!
+  <p-footer>
+    <button
+      type="button"
+      (click)="show_all()"
+      pButton
+      icon="pi pi-times"
+      (click)="displaynorecords = false"
+      label="OK"
+      class="ui-button-secondary"
+    ></button>
+  </p-footer>
+</p-dialog>
+<!---------------------------------------------connot delete record------------------------------------------------------------->
+<p-dialog
+  header="ALERT"
+  [(visible)]="displaydelete"
+  [style]="{ width: '50vw' }"
+  [baseZIndex]="10000"
+  position="top"
+>
+  Ce domaine est lié à une mission ou une recommendation !!!!!
+  <p-footer>
+    <button
+      type="button"
+      (click)="show_all()"
+      pButton
+      icon="pi pi-times"
+      (click)="displaydelete = false"
+      label="OK"
+      class="ui-button-secondary"
+    ></button>
+  </p-footer>
+</p-dialog>

@@ -1,0 +1,219 @@
+<div class="row">
+    <div class="col-sm-12" id="card">
+      <div class="container-fluid text-center">
+  
+        <input type="text" pInputText placeholder="Chercher" class="text-center" [(ngModel)]="search_mission"
+          (input)="search_mission_name()" id="search">
+        <br> <br>
+  
+        <p-table [value]="mission_organes" [paginator]="true" [responsive]="true" [rows]="5" [rowsPerPageOptions]="[5,10,15,20,25]"
+          totalRecords="mission_organes.length" pageLinks="3" [autoLayout]="true">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Nom</th>
+              <th>Périmètre</th>
+              <th>Date début</th>
+              <th>Date Fin</th>
+              <th>Nom d'orgâne de controle </th>
+              <th>Objectifs</th>
+              <th>Recommendation</th>
+              <th>Observations</th>
+              <th>Équipe d'audit</th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-mission let-rowData>
+            <tr>
+              <td>{{mission.nom}}</td>
+              <td> <select multiple ngModel >
+                  <option [ngValue]="item" *ngFor="let item of mission.perimetre"> {{item.nom}} </option>
+                </select></td>
+              <td>{{mission.debut}}</td>
+              <td>{{mission.fin}}</td>
+              <td>{{mission.nom_organe}}</td>
+              <td> 
+               <textarea readonly  > {{mission.objectifs}} </textarea>
+              </td>
+              <td>
+                <select required id="multi" class="form-control" multiple>
+                  <ng-template ngFor let-item [ngForOf]="mission.recommendations">
+  
+                    <option [ngValue]="item"> {{item.intitule}} </option>
+  
+                  </ng-template>
+                </select>
+              </td>
+              <td> 
+                  <textarea  readonly  >{{mission.observations}} </textarea>
+              </td>
+              <td>
+                <select  required  class="form-control"  id="multi" multiple>
+                  <ng-template   ngFor let-item [ngForOf]="mission.equipe_audit">
+                   
+                    <option [ngValue]="item"> {{item.nom}} {{item.prenom}} </option>
+  
+                  </ng-template>
+                </select>
+  
+              </td>
+  
+              <td><span>
+                  <p-button icon="pi pi-user-edit" iconPos="left" styleClass="ui-button-warning"
+                    (click)="showDialog_edit(mission)">
+                  </p-button>
+                </span>
+         
+                <span>
+                  <p-button icon="pi pi-times" styleClass="ui-button-danger " (click)="delete_mission(mission.id)">
+                  </p-button>
+                </span>
+  
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="summary" let-rowData>
+            <div style="text-align:left">
+              <button type="button" pButton icon="pi pi-plus" (click)="showDialog_add()" label="Ajouter"></button>
+            </div>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+  
+  <!--------------------------------------Edit form pop-Up---------------------------------->
+  <p-dialog header="Modifier la mission" [(visible)]="display_edit" styleClass="mydialog">
+    <div class="container text-center" style="width: 50vw;">
+  
+      <form #utilisateuredit="ngForm" (ngSubmit)="edit_mission(utilisateuredit)" ngNativeValidate>
+        <div class="form-group">
+          <label for="">Nom de la Mission</label>
+          <input  class="form-control" required type="text" name="nom" ngModel
+            [(ngModel)]="nom" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="">Périmètre </label>
+          <select multiple ngModel [(ngModel)]="perimetre" class="form-control" name="perimetre">
+              <option [ngValue]="item" *ngFor="let item of domaines"> {{item.nom}} </option>
+            </select>
+        </div>
+        <div class="form-group">
+          <label for="">Date début </label>
+          <input class="form-control" required type="date" name="debut" ngModel [(ngModel)]="debut">
+        </div>
+        <div class="form-group">
+          <label for="">Date Fin </label>
+          <input class="form-control" required type="date" name="fin" ngModel [(ngModel)]="fin">
+        </div>
+        <div class="form-group">
+          <label for="">Nom d'organe de contrôle</label>
+          <input class="form-control" required type="text" name="organe_nom" ngModel [(ngModel)]="organe_nom">
+        </div>
+  
+        <div class="form-group">
+          <label for="">Objectifs</label>
+         <textarea name="objectifs" ngModel [(ngModel)]="objectifs" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="">Observations</label>
+          <textarea name="observations" ngModel [(ngModel)]="observations" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="">Recommendations</label>
+          <select [(ngModel)]="reco" ngModel  name="reco" multiple id="multi"  class="form-control" disabled>
+              <ng-template ngFor let-item [ngForOf]="reco" let-i="index">
+                <option [ngValue]="item"> {{item.intitule}} </option>
+              </ng-template>
+            </select>
+        </div>
+        <div class="form-group">
+          <label for="">Équipe d'audit</label>
+          <select  ngModel [(ngModel)]="equipe"  name="equipe" multiple id="multi" class="form-control">
+            <ng-template ngFor let-item [ngForOf]="auditeur">
+              <option [ngValue]="item"> {{item.nom}} {{item.prenom}} </option>
+            </ng-template>
+          </select>
+        </div>
+  
+        <div class="form-group">
+          <p-button label="Modifier" styleClass=" ui-button-rounded ui-button-warning " type="submit"></p-button>
+        </div>
+      </form>
+    </div>
+  
+  </p-dialog>
+  <!------------------------------------END Edit form pop-Up---------------------------------->
+  
+  <!-------------------------------------- ADD form pop-Up-------------------------------------->
+  
+  <p-dialog header="Ajouter une Mission d’un autre organe de contrôle externe " [(visible)]="display_add"  class="dialog">
+    <div class="container text-center" style="width: 50vw;">
+  
+      <form #utilisateuradd="ngForm" (ngSubmit)="add_mission(utilisateuradd)" ngNativeValidate>
+          <div class="form-group">
+              <label for="">Nom de la Mission</label>
+              <input  class="form-control" required type="text" name="nom" ngModel
+                class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="">Périmètre </label>
+              <select multiple ngModel  class="form-control" name="perimetre">
+                  <option [ngValue]="item" *ngFor="let item of domaines"> {{item.nom}} </option>
+                </select>
+            </div>
+            <div class="form-group">
+              <label for="">Date début </label>
+              <input class="form-control" required type="date" name="debut" ngModel >
+            </div>
+            <div class="form-group">
+              <label for="">Date Fin </label>
+              <input class="form-control" required type="date" name="fin" ngModel >
+            </div>
+            <div class="form-group">
+              <label for=""> Nom d'organe de contrôle</label>
+              <input class="form-control" required type="text" name="nom_organe" ngModel>
+            </div>
+            <div class="form-group">
+              <label for="">Objectifs</label>
+             <textarea name="objectifs" ngModel  class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="">Observations</label>
+              <textarea name="observations" ngModel  class="form-control"></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="">Équipe d'audit</label>
+              <select ngModel  name="equipe" multiple id="multi" class="form-control">
+                <ng-template ngFor let-item [ngForOf]="auditeur">
+                  <option [ngValue]="item"> {{item.nom}} {{item.prenom}} </option>
+                </ng-template>
+              </select>
+            </div>
+      
+  
+        <div class="form-group">
+          <p-button label="Ajouter" styleClass=" ui-button-rounded ui-button-success" type="submit"></p-button>
+        </div>
+      </form>
+    </div>
+  
+  </p-dialog>
+  <!--------------------------------------END ADD form pop-Up-------------------------------->
+  <!----------------------------------------- NO RECORDS DIALOGUE---------------------------------------->
+  <p-dialog header="ALERT" [(visible)]="displaynorecords" [style]="{width: '50vw'}" [baseZIndex]="10000" position="top">
+    Aucune Mission n'a été trouvé !!!
+    <p-footer>
+      <button type="button" (click)="get_all()" pButton icon="pi pi-times" (click)="displaynorecords=false" label="OK"
+        class="ui-button-secondary"></button>
+    </p-footer>
+  </p-dialog>
+  <!--------------------------------------------connot delete record------------------------------------------------------------>
+  <p-dialog header="ALERT" [(visible)]="displaydelete" [style]="{width: '50vw'}" [baseZIndex]="10000" position="top">
+  
+    <p-footer>
+      <button type="button" (click)="get_all()" pButton icon="pi pi-times" (click)="displaydelete=false" label="OK"
+        class="ui-button-secondary"></button>
+    </p-footer>
+  </p-dialog>
+  
