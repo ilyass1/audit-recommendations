@@ -152,7 +152,7 @@
             <td>{{reco.mise_en_place_reelle}}</td>
             <td>{{reco.status}}</td>
             <td>{{reco.priority}}</td>
-            <td>{{reco.responsable_mise_en_place == null ? "" :  reco.responsable_mise_en_place.nom }} {{reco.responsable_mise_en_place == null ? "" :reco.responsable_mise_en_place.prenom}} </td>
+            <td>{{reco.responsable_mise_en_place == null ? "" :  reco.responsable_mise_en_place.nom+" "+ reco.responsable_mise_en_place.prenom }} </td>
             <td> <p-progressBar [value]="reco.taux_avancement == null ? '0' :reco.taux_avancement"></p-progressBar></td>
             <td> <select multiple id="multi">
                 <option [ngValue]="item.id" *ngFor="let item of reco.domaine"> {{item.nom}} </option>
